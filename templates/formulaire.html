@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Formulaire de collecte{% endblock %}
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h2><i class="fas fa-clipboard-list"></i> Participez à l'étude</h2>
+        <p class="mb-0">Vos réponses nous aident à comprendre le lien entre âge et activité professionnelle.</p>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="/collecte">
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- Champ 1 : Âge -->
+                    <div class="mb-3">
+                        <label><i class="fas fa-calendar-alt"></i> Âge (18-100) :</label>
+                        <input type="number" name="age" class="form-control" min="18" max="100" required>
+                    </div>
+                    <!-- Champ 2 : Expérience -->
+                    <div class="mb-3">
+                        <label><i class="fas fa-briefcase"></i> Années d'expérience :</label>
+                        <input type="number" name="experience" class="form-control" min="0" required>
+                    </div>
+                    <!-- Champ 3 : Poste -->
+                    <div class="mb-3">
+                        <label><i class="fas fa-user-tie"></i> Poste :</label>
+                        <select name="poste" class="form-select">
+                            <option>Développeur</option><option>Data Scientist</option>
+                            <option>Chef de projet</option><option>DevOps</option><option>Autre</option>
+                        </select>
+                    </div>
+                    <!-- Champ 4 : Salaire -->
+                    <div class="mb-3">
+                        <label><i class="fas fa-euro-sign"></i> Salaire annuel (€) :</label>
+                        <input type="number" step="1000" name="salaire" class="form-control" required>
+                    </div>
+                    <!-- Champ 5 : Satisfaction -->
+                    <div class="mb-3">
+                        <label><i class="fas fa-smile"></i> Satisfaction (1-5) :</label>
+                        <input type="range" name="satisfaction" min="1" max="5" step="1" class="form-range" oninput="this.nextElementSibling.value = this.value">
+                        <output>3</output>
+                    </div>
+                    <!-- Champ 6 : Niveau d'études -->
+                    <div class="mb-3">
+                        <label><i class="fas fa-graduation-cap"></i> Niveau d'études :</label>
+                        <select name="niveau_etudes" class="form-select">
+                            <option>Bac</option><option>Bac+2</option><option>Bac+5</option><option>Doctorat</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <!-- Champ 7 : Secteur -->
+                    <div class="mb-3">
+                        <label><i class="fas fa-building"></i> Secteur :</label>
+                        <select name="secteur" class="form-select">
+                            <option>Public</option><option>Privé</option><option>Indépendant</option>
+                        </select>
+                    </div>
+                    <!-- Champ 8 : Télétravail -->
+                    <div class="mb-3">
+                        <label><i class="fas fa-home"></i> Télétravail (jours/semaine) :</label>
+                        <input type="number" name="teletravail" class="form-control" min="0" max="5" value="0">
+                    </div>
+                    <!-- Champ 9 : Genre -->
+                    <div class="mb-3">
+                        <label><i class="fas fa-venus-mars"></i> Genre :</label>
+                        <select name="genre" class="form-select">
+                            <option>F</option><option>H</option><option>Autre</option>
+                        </select>
+                    </div>
+                    <!-- Champ 10 : Ville -->
+                    <div class="mb-3">
+                        <label><i class="fas fa-city"></i> Ville / Région :</label>
+                        <input type="text" name="ville" class="form-control">
+                    </div>
+                    <!-- Champ 11 : Heures/semaine -->
+                    <div class="mb-3">
+                        <label><i class="fas fa-clock"></i> Heures travaillées / semaine :</label>
+                        <input type="number" name="heures_semaine" class="form-control" min="0" max="80" required>
+                    </div>
+                    <!-- Champ 12 : Temps partiel -->
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" name="temps_partiel" class="form-check-input" id="temps_partiel">
+                        <label class="form-check-label" for="temps_partiel">Temps partiel ?</label>
+                    </div>
+                    <!-- Champ 13 : Heures supplémentaires -->
+                    <div class="mb-3">
+                        <label><i class="fas fa-plus-circle"></i> Heures supplémentaires / mois :</label>
+                        <input type="number" name="heures_sup" class="form-control" min="0" value="0">
+                    </div>
+                    <!-- Champ 14 : Trajet -->
+                    <div class="mb-3">
+                        <label><i class="fas fa-road"></i> Temps de trajet (minutes) :</label>
+                        <input type="number" name="trajet_minutes" class="form-control" min="0">
+                    </div>
+                    <!-- Champ 15 : Congés -->
+                    <div class="mb-3">
+                        <label><i class="fas fa-umbrella-beach"></i> Jours de congés pris / an :</label>
+                        <input type="number" name="conges_annuels" class="form-control" min="0" max="60">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100"><i class="fas fa-paper-plane"></i> Envoyer</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

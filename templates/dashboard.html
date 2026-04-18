@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Analyse interactive{% endblock %}
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-success text-white">
+        <h3><i class="fas fa-tachometer-alt"></i> Tableau de bord – Comparaison jeunes vs seniors</h3>
+        <hr>
+        
+        <div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card bg-light mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Nombre de participations</h5>
+                <p class="card-text h2">{{ stats.total }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card bg-light mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Âge moyen des participants</h5>
+                <p class="card-text h2">{{ stats.age_moyen }} ans</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+    </div>
+    <div class="card-body">
+        <form method="GET" action="/dashboard" class="row g-3 mb-4">
+            <div class="col-md-4">
+                <label>Filtrer par secteur :</label>
+                <select name="secteur" class="form-select">
+                    <option value="">Tous</option>
+                    <option>Public</option><option>Privé</option><option>Indépendant</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label>Filtrer par genre :</label>
+                <select name="genre" class="form-select">
+                    <option value="">Tous</option>
+                    <option>F</option><option>H</option><option>Autre</option>
+                </select>
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100"><i class="fas fa-filter"></i> Appliquer</button>
+            </div>
+        </form>
+
+        {% if stats %}
+        <div class="row">
+            <div class="col-md-6">
+                <h4>📊 Indicateurs clés</h4>
+                <ul class="list-group mb-3">
+                    <li class="list-group-item">Effectif total : <strong>{{ stats.effectif_total }}</strong></li>
+                    <li class="list-group-item">Âge moyen : <strong>{{ stats.age_moyen|round(1) }}</strong> ans</li>
+                    <li class="list-group-item">Heures/semaine moyennes : <strong>{{ stats.heures_moyennes }}</strong></li>
+                    <li class="list-group-item">Score d'activité moyen : <strong>{{ stats.score_activite_moyen }}</strong></li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h4>⚖️ Jeunes (≤35) vs Seniors (≥50)</h4>
+                <ul class="list-group mb-3">
+                    <li class="list-group-item">Heures/semaine (jeunes) : <strong>{{ stats.heures_jeunes|round(1) if stats.heures_jeunes else 'N/A' }}</strong></li>
+                    <li class="list-group-item">Heures/semaine (seniors) : <strong>{{ stats.heures_seniors|round(1) if stats.heures_seniors else 'N/A' }}</strong></li>
+                    <li class="list-group-item">p-value : <strong>{{ stats.p_value|round(4) if stats.p_value else 'N/A' }}</strong>
+                        {% if stats.p_value and stats.p_value < 0.05 %}
+                            <span class="badge bg-success">Différence significative</span>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h4>📈 Graphiques</h4>
+                {% if graphiques %}
+                    {% for img in graphiques %}
+                        <img src="{{ url_for('static', filename='images/' + img) }}" class="img-fluid mb-3">
+                    {% endfor %}
+                {% else %}
+                    <p>Aucun graphique généré pour l'instant.</p>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-warning">Aucune donnée disponible. <a href="/">Collectez des réponses</a>.</div>
+        {% endif %}
+    </div>
+</div>
+<hr>
+    <h3><i class="fas fa-chart-line"></i> Analyse de Corrélation</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <p>Le lien entre l'âge et le salaire est de : <strong>{{ stats.correlation }}</strong></p>
+            <p class="small text-muted">Plus ce chiffre est proche de 1, plus les deux variables augmentent ensemble.</p>
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="{{ url_for('static', filename='images/heatmap_corr.png') }}" class="img-fluid border shadow" alt="Heatmap">
+        </div>
+    </div>
+
+</div> {% endblock %}
