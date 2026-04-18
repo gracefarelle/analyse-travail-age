@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
+import os
 import database as db
 import analyse
 import pandas as pd
@@ -76,5 +77,4 @@ if __name__ == '__main__':
     db.init_db()
     app.run(debug=True)
 
-    if __name__ == "_main_":
-       app.run(host='0.0.0.0', port=10000)
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
